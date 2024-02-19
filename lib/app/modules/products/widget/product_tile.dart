@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tr_store/app/modules/cart/controllers/cart_controller.dart';
@@ -18,7 +19,20 @@ class ProductTile extends StatelessWidget {
       subtitle: Text(p.category!),
       leading: AspectRatio(
         aspectRatio: 1,
-        child: Image.network(p.image ?? '', fit: BoxFit.cover),
+        child: CachedNetworkImage(
+          imageUrl: p.thumbnail ?? '',
+          fit: BoxFit.cover,
+          placeholder: (context, url) => const Center(
+            child: SizedBox(
+              width: 25,
+              height: 25,
+              child: CircularProgressIndicator(),
+            ),
+          ),
+          errorWidget: (context, url, error) => const Center(
+            child: Icon(Icons.error),
+          ),
+        ),
       ),
       onTap: () => Get.toNamed(Routes.DETAILS, arguments: p),
       trailing: IconButton(

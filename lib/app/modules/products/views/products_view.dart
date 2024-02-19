@@ -20,10 +20,17 @@ class ProductsView extends GetView<ProductsController> {
         onPressed: () => Get.toNamed(Routes.CART),
         child: const Icon(Icons.shopping_cart),
       ),
-      body: Obx(
-        () => ListView.builder(
-          itemCount: controller.products.length,
-          itemBuilder: (_, i) => ProductTile(controller.products[i]),
+
+      // pull to refresh
+      body: RefreshIndicator(
+        onRefresh: () async => await controller.loadProducts(),
+        child: Obx(
+          () => controller.isLoading.value
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: controller.products.length,
+                  itemBuilder: (_, i) => ProductTile(controller.products[i]),
+                ),
         ),
       ),
     );

@@ -1,3 +1,4 @@
 class AppConstants {
-  static const box = 'tr_store';
+  static const cartBox = 'tr_store_cart';
+  static const productBox = 'tr_store_products';
 }

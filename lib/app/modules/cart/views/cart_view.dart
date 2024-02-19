@@ -19,7 +19,21 @@ class CartView extends GetView<CartController> {
           if (ids.isEmpty) return const Center(child: Text('Cart is empty'));
           return ListView.builder(
             itemCount: ids.length,
-            itemBuilder: (_, i) => CartItemTile(cart.products[ids[i]]!),
+            itemBuilder: (_, i) {
+              final id = ids[i];
+              final p = cart.products[id]!;
+              return CartItemTile(
+                p,
+                cart.itemIds[id].toString(),
+                (isIncrement) {
+                  if (isIncrement) {
+                    cart.add(p);
+                  } else {
+                    cart.remove(id);
+                  }
+                },
+              );
+            },
           );
         },
       ),
