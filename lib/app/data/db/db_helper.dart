@@ -77,4 +77,9 @@ class DatabaseHelper {
     Database db = await instance.database;
     if (db.isOpen) db.close();
   }
+
+  Future<void> clear() async {
+    Database db = instance.database as Database;
+    db.execute('DELETE FROM products');
+  }
 }

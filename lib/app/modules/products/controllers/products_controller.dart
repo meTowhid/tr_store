@@ -23,13 +23,11 @@ class ProductsController extends GetxController {
     final res = await provider.getProducts();
     final db = DatabaseHelper.instance;
     if (res == null || res.isEmpty) {
-      // products.addAll(productBox.values);
       final productsFromDB = await db.getProducts();
       products.value = productsFromDB;
     } else {
       products.value = res;
-      // productBox.clear();
-      // productBox.addAll(products);
+      await db.clear();
       res.forEach((p) async => await db.add(p));
     }
     isLoading.value = false;
