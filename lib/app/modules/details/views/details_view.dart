@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tr_store/app/modules/cart/controllers/cart_controller.dart';
@@ -20,7 +21,7 @@ class DetailsView extends GetView<DetailsController> {
         title: const Text('Details'),
       ),
       floatingActionButton: Obx(
-        () => Row(
+        () => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             FloatingActionButton(
@@ -28,12 +29,11 @@ class DetailsView extends GetView<DetailsController> {
               onPressed: () =>
                   cart.contains(p) ? cart.remove(p.id!) : cart.add(p),
               child: cart.contains(p)
-                  ? const Icon(Icons.check_circle_outline, color: Colors.green)
+                  ? const Icon(Icons.check_circle_outline)
                   : const Icon(Icons.add),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(height: 10),
             FloatingActionButton(
-              heroTag: 'cart',
               onPressed: () => Get.toNamed(Routes.CART),
               child: const Icon(Icons.shopping_cart),
             ),
@@ -44,7 +44,16 @@ class DetailsView extends GetView<DetailsController> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.network(p.image ?? ''),
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: CachedNetworkImage(
+                imageUrl: p.image ?? '',
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            ),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(8.0),
