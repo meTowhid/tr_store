@@ -16,10 +16,10 @@ class CartView extends GetView<CartController> {
       body: Obx(
         () {
           final ids = cart.itemIds.keys.toList();
-          if (ids.isEmpty) const Center(child: Text('Cart is empty'));
+          if (ids.isEmpty) return const Center(child: Text('Cart is empty'));
           return ListView.builder(
             itemCount: ids.length,
-            itemBuilder: (_, i) => CartItemTile(cart.products[ids[i]]!, cart),
+            itemBuilder: (_, i) => CartItemTile(cart.products[ids[i]]!),
           );
         },
       ),
